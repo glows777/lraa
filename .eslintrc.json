@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next", "next/core-web-vitals"],
+  "rules": {
+    "semi": [2, "never"],
+    "quotes": [2, "single"],
+    "react/jsx-uses-react": "off"
+  },
+  "ignorePatterns": [".eslintrc.json", "components/ui/*.*"]
 }
