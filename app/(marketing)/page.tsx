@@ -1,11 +1,13 @@
-import MaxWidthWrapper from '@/components/max-width-wrapper'
+import Header from './_components/header'
+import Intro from './_components/intro'
+import Footer from './_components/footer'
 
 export default function Home() {
   return (
     <>
-      <MaxWidthWrapper>
-        <div className=' bg-rose-600'>hello</div>
-      </MaxWidthWrapper>
+      <Header />
+      <Intro />
+      <Footer />
     </>
   )
 }
