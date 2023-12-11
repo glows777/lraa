@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import './globals.css'
+import Navbar from './(marketing)/_components/navbar'
+import TRPCProvider from '@/components/providers/trpc-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +20,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(' min-h-screen font-sans antialiased grainy', inter.className)}>{children}</body>
+      <TRPCProvider>
+        <body
+          className={cn(
+            ' min-h-screen font-sans antialiased grainy',
+            inter.className
+          )}
+        >
+          {' '}
+          <Navbar />
+          {children}
+        </body>
+      </TRPCProvider>
     </html>
   )
 }
