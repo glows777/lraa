@@ -25,8 +25,11 @@
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    /* --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%; */
+
+    --destructive: 0 86% 97%; /* custom value */
+    --destructive-foreground: 0 74% 42%; /* custom value */
 
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;

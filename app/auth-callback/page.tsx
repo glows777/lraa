@@ -1,15 +1,16 @@
 'use client'
 
 import { useSearchParams, useRouter } from 'next/navigation'
-import { trpc } from '../_trpc/client'
 import { Loader2 } from 'lucide-react'
+
+import { trpc } from '../_trpc/client'
 
 const Page = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const origin = searchParams.get('origin')
 
-  trpc.authCallback.useQuery(undefined, {
+  const data = trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
       router.push(origin ? `/${origin}` : '/dashboard')
     },
