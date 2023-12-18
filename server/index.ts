@@ -1,7 +1,8 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { z } from 'zod'
 
-import { TRPCError } from '@trpc/server'
 import { db } from '@/db'
+import { TRPCError } from '@trpc/server'
 
 import { privateProcedure, publicProcedure, router } from './trpc'
 
@@ -37,6 +38,23 @@ export const appRouter = router({
     })
     return files
   }),
+
+  deleteFile: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx
+      const { id } = input
+      const file = await db.file.findFirst({
+        where: { id, userId },
+      })
+      if (!file) {
+        throw new TRPCError({ code: 'NOT_FOUND' })
+      }
+      await db.file.delete({
+        where: { id },
+      })
+      return { success: true }
+    }),
 })
 
 export type AppRouter = typeof appRouter
