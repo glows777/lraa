@@ -8,8 +8,7 @@ import Skeleton from 'react-loading-skeleton'
 
 import { trpc } from '@/app/_trpc/client'
 import { Button } from '@/components/ui/button'
-
-import UploadButton from './upload-button'
+import UploadButton from '@/components/upload/upload-button'
 
 const Dashboard = () => {
   const [currentDeletingFile, setCurrentDeletingFile] = useState<string | null>(
