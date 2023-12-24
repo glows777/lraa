@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-import { cn } from '@/lib/utils'
-import './globals.css'
-import Navbar from './(marketing)/_components/navbar'
 import TRPCProvider from '@/components/providers/trpc-provider'
+import { Toaster } from '@/components/ui/toaster'
+import { cn } from '@/lib/utils'
+import Navbar from './(marketing)/_components/navbar'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +29,7 @@ export default function RootLayout({
             inter.className
           )}
         >
-          {' '}
+          <Toaster />
           <Navbar />
           {children}
         </body>

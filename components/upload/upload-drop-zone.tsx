@@ -1,3 +1,5 @@
+'use client'
+
 import { trpc } from '@/app/_trpc/client'
 import { useUploadThing } from '@/lib/use-uploadthing'
 import { Cloud, File as FileIcon, Loader2 } from 'lucide-react'
@@ -13,6 +15,7 @@ const UploadDropzone = () => {
   const [uploadProgress, setUploadProgress] = useState(0)
 
   const { startUpload } = useUploadThing('pdfUploader')
+
   const { mutate: startPolling } = trpc.getFile.useMutation({
     onSuccess: (file) => {
       router.push(`/dashboard/${file?.id}`)
@@ -37,13 +40,18 @@ const UploadDropzone = () => {
     )
     return interval
   }
+  const cancel = (interval: ReturnType<typeof startSimulatedProgress>) => {
+    setUploadProgress(0)
+    setIsUploading(false)
+    clearInterval(interval)
+  }
   const onDrop = async (acceptedFiles: File[]) => {
     setIsUploading(true)
     const interval = startSimulatedProgress()
-
     const files = await startUpload(acceptedFiles)
 
     if (!files) {
+      cancel(interval)
       return toast({
         title: 'Something went wrong',
         description: 'Please try again later',
@@ -53,6 +61,7 @@ const UploadDropzone = () => {
     const [file] = files
     const key = file.key
     if (!key) {
+      cancel(interval)
       return toast({
         title: 'Something went wrong',
         description: 'Please try again later',
