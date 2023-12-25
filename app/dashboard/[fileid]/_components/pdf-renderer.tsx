@@ -3,11 +3,13 @@
 import { Loader2 } from 'lucide-react'
 import { FC } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
+import { useResizeDetector } from 'react-resize-detector'
 
 import { toast } from '@/components/ui/use-toast'
 
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -16,6 +18,7 @@ interface PDFRendererProps {
 }
 
 const PDFRenderer: FC<PDFRendererProps> = ({ url }) => {
+  const { width, ref } = useResizeDetector()
   return (
     <div className=" w-full bg-white rounded-md shadow flex flex-col items-center">
       <div className=" h-14 w-full border-b border-neutral-200 flex items-center justify-between px-2">
@@ -23,26 +26,28 @@ const PDFRenderer: FC<PDFRendererProps> = ({ url }) => {
       </div>
 
       <div className=" flex-1 w-full max-h-screen">
-        <Document
-          loading={
-            <div className=" flex justify-center">
-              <Loader2 className=" my-24 h-6 w-6 animate-spin" />
-            </div>
-          }
-          onLoadError={() => {
-            toast({
-              title: 'Error loading PDF',
-              description: 'Please try again later',
-              variant: 'destructive',
-            })
-          }}
-          file={url}
-          className=' max-h-full'
-        >
-          <Page 
-            pageIndex={0}
-          />
-        </Document>
+        <div className=" h-[calc(100vh-10rem)] overflow-scroll">
+          <div ref={ref}>
+            <Document
+              loading={
+                <div className=" flex justify-center">
+                  <Loader2 className=" my-24 h-6 w-6 animate-spin" />
+                </div>
+              }
+              onLoadError={() => {
+                toast({
+                  title: 'Error loading PDF',
+                  description: 'Please try again later',
+                  variant: 'destructive',
+                })
+              }}
+              file={url}
+              className=" max-h-full"
+            >
+              <Page pageIndex={0} width={width ? width : 1} />
+            </Document>
+          </div>
+        </div>
       </div>
     </div>
   )
