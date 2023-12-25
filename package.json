@@ -31,6 +31,7 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-loading-skeleton": "^3.3.1",
+    "react-pdf": "^7.6.0",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.1.0",

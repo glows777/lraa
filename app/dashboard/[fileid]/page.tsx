@@ -21,7 +21,7 @@ const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
     redirect(`/auth-callback?origin=dashboard/${fileid}`)
   }
 
-  const file = db.file.findFirst({
+  const file = await db.file.findFirst({
     where: {
       id: fileid,
       userId: user.id,
@@ -37,7 +37,7 @@ const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
         {/* left side -> pdf renderer */}
         <div className=" flex-1 xl:flex">
           <div className=" px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6">
-            <PDFRenderer />
+            <PDFRenderer url={file.url} />
           </div>
         </div>
 
