@@ -1,20 +1,20 @@
 'use client'
 
+import { toast } from '@/components/ui/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 import { FC, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { useResizeDetector } from 'react-resize-detector'
+import { z } from 'zod'
 
-import { toast } from '@/components/ui/use-toast'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { cn } from '@/lib/utils'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
