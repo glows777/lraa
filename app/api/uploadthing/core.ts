@@ -1,8 +1,7 @@
-import { db } from '@/db'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import { TRPCError } from '@trpc/server'
-import { fi } from 'date-fns/locale'
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
+
+import { db } from '@/db'
 
 const f = createUploadthing()
 
