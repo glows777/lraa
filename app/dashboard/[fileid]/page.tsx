@@ -43,7 +43,7 @@ const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
 
         {/* right side -> chat wrapper */}
         <div className=" shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0">
-          <ChatWrapper />
+          <ChatWrapper fileId={file.id} />
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ export const ourFileRouter = {
       const isFileExist = await db.file.findFirst({
         where: {
           key: file.key,
-        //   userId: metadata.userId,
+          userId: metadata.userId,
         },
       })
       if (isFileExist) return
