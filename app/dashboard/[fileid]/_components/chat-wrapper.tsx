@@ -6,9 +6,27 @@ import { FC, ReactNode } from 'react'
 import { trpc } from '@/app/_trpc/client'
 
 import ChatInput from './chat-input'
+import MessageList from './message-list'
 
 interface ChatWrapperProps {
   fileId: string
+}
+
+interface ChatContainerProps {
+  children: ReactNode
+  isDisable?: boolean
+}
+
+const ChatContainer: FC<ChatContainerProps> = ({ children, isDisable }) => {
+  return (
+    <div className=" relative min-h-full bg-neutral-50 flex divide-y divide-neutral-200 flex-col justify-between gap-2">
+      {/* // todo mb-20 when status is status or in loading */}
+      <div className=" flex-1 flex justify-center items-center flex-col mb-28">
+        {children}
+      </div>
+      <ChatInput isDisable={isDisable} />
+    </div>
+  )
 }
 
 const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
@@ -24,62 +42,47 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
 
   if (isLoading) {
     return (
-      <div className=" relative min-h-full bg-neutral-50 flex divide-y divide-neutral-200 flex-col justify-between gap-2">
-        <div className=" flex-1 flex justify-center items-center flex-col mb-20">
-          <div className=" flex flex-col items-center gap-2">
-            <Loader2 className=" h-8 w08 text-blue-500 animate-spin" />
-            <h3 className=" font-semibold text-xl">Loading...</h3>
-            <p className=" text-neutral-500 text-sm">
-              we&apos;re preparing your PDF
-            </p>
-          </div>
+      <ChatContainer isDisable>
+        <div className=" flex flex-col items-center gap-2">
+          <Loader2 className=" h-8 w08 text-blue-500 animate-spin" />
+          <h3 className=" font-semibold text-xl">Loading...</h3>
+          <p className=" text-neutral-500 text-sm">
+            we&apos;re preparing your PDF
+          </p>
         </div>
-        <ChatInput isDisable />
-      </div>
+      </ChatContainer>
     )
   }
 
   if (data?.status === 'FAILED') {
     return (
-      <div className=" relative min-h-full bg-neutral-50 flex divide-y divide-neutral-200 flex-col justify-between gap-2">
-        <div className=" flex-1 flex justify-center items-center flex-col mb-20">
-          <div className=" flex flex-col items-center gap-2">
-            <XCircle className=" h-8 w-8 text-red-500" />
-            <h3 className=" font-semibold text-xl">
-              Oops, there seems to have some errors
-            </h3>
-          </div>
+      <ChatContainer isDisable>
+        <div className=" flex flex-col items-center gap-2">
+          <XCircle className=" h-8 w-8 text-red-500" />
+          <h3 className=" font-semibold text-xl">
+            Oops, there seems to have some errors
+          </h3>
         </div>
-        <ChatInput isDisable />
-      </div>
+      </ChatContainer>
     )
   }
 
   if (data?.status === 'PROCESSING') {
     return (
-      <div className=" relative min-h-full bg-neutral-50 flex divide-y divide-neutral-200 flex-col justify-between gap-2">
-        <div className=" flex-1 flex justify-center items-center flex-col mb-28">
-          <div className=" flex flex-col items-center gap-2">
-            <Loader2 className=" h-8 w-8 text-blue-500 animate-spin" />
-            <h3 className=" font-semibold text-xl">Processing PDF...</h3>
-            <p className=" text-neutral-500 text-sm">
-              This won&apos;t take long
-            </p>
-          </div>
+      <ChatContainer isDisable>
+        <div className=" flex flex-col items-center gap-2">
+          <Loader2 className=" h-8 w-8 text-blue-500 animate-spin" />
+          <h3 className=" font-semibold text-xl">Processing PDF...</h3>
+          <p className=" text-neutral-500 text-sm">This won&apos;t take long</p>
         </div>
-        <ChatInput isDisable />
-      </div>
+      </ChatContainer>
     )
   }
 
   return (
-    <div className=" relative min-h-full bg-neutral-50 flex divide-y divide-neutral-200 flex-col justify-between gap-2">
-      <div className="flex-1 justify-between flex flex-col mb-28">
-        message container
-      </div>
-
-      <ChatInput />
-    </div>
+    <ChatContainer>
+      <MessageList />
+    </ChatContainer>
   )
 }
 
