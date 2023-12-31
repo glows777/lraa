@@ -7,6 +7,7 @@ import { trpc } from '@/app/_trpc/client'
 
 import ChatInput from './chat-input'
 import MessageList from './message-list'
+import ChatProvider from '@/components/providers/chat-provider'
 
 interface ChatWrapperProps {
   fileId: string
@@ -80,9 +81,11 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
   }
 
   return (
-    <ChatContainer>
-      <MessageList />
-    </ChatContainer>
+    <ChatProvider fileId={fileId}>
+      <ChatContainer>
+        <MessageList />
+      </ChatContainer>
+    </ChatProvider>
   )
 }
 
