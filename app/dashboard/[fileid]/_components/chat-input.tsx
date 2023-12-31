@@ -19,7 +19,7 @@ const ChatInput: FC<ChatInputProps> = ({ isDisable }) => {
     textareaRef.current?.focus()
   }
   return (
-    <div className=" absolute bottom-0 left-0 w-full">
+    <div className=" absolute bottom-0 left-0 w-full z-50">
       <div className=" mx-2 flex flex-row gap-3 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
         <div className=" relative flex h-full flex-1 items-stretch md:flex-col">
           <div className=" relative flex flex-col w-full flex-grow p-4">
@@ -30,7 +30,7 @@ const ChatInput: FC<ChatInputProps> = ({ isDisable }) => {
                 autoFocus
                 disabled={isDisable}
                 placeholder="Enter your question..."
-                className=" resize-none pr-12 text-base py-3 focus-visible:border-none"
+                className=" resize-none pr-12 text-base py-3 focus-visible:border-none scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                 ref={textareaRef}
                 onChange={handleInputChange}
                 value={message}

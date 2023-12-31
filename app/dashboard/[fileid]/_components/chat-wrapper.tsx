@@ -83,7 +83,7 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
   return (
     <ChatProvider fileId={fileId}>
       <ChatContainer>
-        <MessageList />
+        <MessageList fileId={fileId} />
       </ChatContainer>
     </ChatProvider>
   )
