@@ -55,12 +55,13 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
 
       return response.body
     },
+
     onMutate: async ({ message }) => {
       backupMessage.current = message
       setMessage('')
 
       await utils.getFileMessages.cancel()
-      const previousMessage = utils.getFileMessages.getInfiniteData()
+      const previousMessages = utils.getFileMessages.getInfiniteData()
       utils.getFileMessages.setInfiniteData(
         {
           fileId,
@@ -78,13 +79,13 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
           let latestPage = newPages[0]!
 
           latestPage.messages = [
-            ...latestPage.messages,
             {
               createdAt: new Date().toISOString(),
               id: crypto.randomUUID(),
               content: message,
               isUserMessage: true,
             },
+            ...latestPage.messages,
           ]
           newPages[0] = latestPage
 
@@ -97,8 +98,8 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
 
       setIsLoading(true)
       return {
-        previousMessage:
-          previousMessage?.pages.flatMap((page) => page.messages) ?? [],
+        previousMessages:
+          previousMessages?.pages.flatMap((page) => page.messages) ?? [],
       }
     },
     onSuccess: async (stream) => {
@@ -145,13 +146,13 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
 
                 if (!isAiResponseCreated) {
                   updatedMessages = [
-                    ...page.messages,
                     {
                       createdAt: new Date().toISOString(),
                       id: 'ai-response',
                       content: accResponse,
                       isUserMessage: false,
                     },
+                    ...page.messages,
                   ]
                 } else {
                   updatedMessages = page.messages.map((msg) => {
@@ -166,7 +167,7 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
                 }
                 return {
                   ...page,
-                  messages: updatedMessages
+                  messages: updatedMessages,
                 }
               }
               return page
@@ -181,7 +182,7 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
       setMessage(backupMessage.current)
       utils.getFileMessages.setData(
         { fileId },
-        { messages: context?.previousMessage ?? [] }
+        { messages: context?.previousMessages ?? [] }
       )
     },
     onSettled: async () => {
