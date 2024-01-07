@@ -119,10 +119,14 @@ const PDFRenderer: FC<PDFRendererProps> = ({ url }) => {
           </Button>
         </div>
 
-        <div className=" space-x-2">
+        <div className=" space-x-2 flex">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className=" gap-1.5" aria-label="zoom" variant="ghost">
+              <Button
+                className=" gap-1.5 px-1"
+                aria-label="zoom"
+                variant="ghost"
+              >
                 <Search className=" w-4 h-4" />
                 {scale * 100}%
                 <ChevronDown className=" h-3 w-3 opacity-50" />
@@ -167,6 +171,7 @@ const PDFRenderer: FC<PDFRendererProps> = ({ url }) => {
             aria-label="rotate 90 degrees"
             variant="ghost"
             onClick={() => setRotation((prev) => prev + 90)}
+            className=' px-1'
           >
             <RotateCw className=" h-4 w-4" />
           </Button>
