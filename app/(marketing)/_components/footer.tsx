@@ -1,5 +1,5 @@
-import Link from "next/link"
-import BorderImage from "./border-image"
+import Link from 'next/link'
+import BorderImage from './border-image'
 
 const Footer = () => {
   return (
