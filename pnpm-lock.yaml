@@ -11,6 +11,7 @@ dependencies:
   '@kinde-oss/kinde-auth-nextjs':
     specifier: ^2.0.13
     version: 2.0.13(next@14.1.1)(react-dom@18.2.0)(react@18.2.0)
+    version: 2.0.13(next@14.1.1)(react-dom@18.2.0)(react@18.2.0)
   '@mantine/hooks':
     specifier: ^7.4.0
     version: 7.4.0(react@18.2.0)
