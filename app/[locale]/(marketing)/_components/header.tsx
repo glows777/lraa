@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
+import { Link } from '@/app/navigation'
 
 const Header = () => {
   return (

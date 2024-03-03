@@ -5,13 +5,17 @@ import {
 } from '@kinde-oss/kinde-auth-nextjs/components'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
 
+import { Link } from '@/app/navigation'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
 import MobileNav from './mobile-nav'
 
-const Navbar = async () => {
+interface NavbarProps {
+  locale: string
+}
+
+const Navbar = async ({ locale }: NavbarProps) => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
@@ -29,7 +33,7 @@ const Navbar = async () => {
             {!user ? (
               <>
                 <Link
-                  href="/pricing"
+                  href='/pricing'
                   className={buttonVariants({
                     variant: 'ghost',
                     size: 'sm',

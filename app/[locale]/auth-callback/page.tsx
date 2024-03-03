@@ -1,22 +1,31 @@
 'use client'
 
-import { useSearchParams, useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
 
-import { trpc } from '../_trpc/client'
+import { useRouter, usePathname } from '@/app/navigation'
 
-const Page = () => {
+import { trpc } from '../../_trpc/client'
+
+interface Props {
+  locale: string
+}
+
+const Page = ({ locale }: Props) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  // const searchParams = usePathname()
   const origin = searchParams.get('origin')
+  
 
   const data = trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
-      router.push(origin ? `/${origin}` : '/dashboard')
+      console.log('origin', origin)
+      router.push(origin ? `/${origin}` as '/dashboard' : '/dashboard')
     },
     onError: (error) => {
       if (error.data?.code === 'UNAUTHORIZED') {
-        router.push('/sign-in')
+        router.push('/')
       }
     },
     retry: true,
