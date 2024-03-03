@@ -1,18 +1,21 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { unstable_setRequestLocale } from 'next-intl/server'
 import { notFound, redirect } from 'next/navigation'
 
 import { db } from '@/db'
-import PDFRenderer from './_components/pdf-renderer'
 import ChatWrapper from './_components/chat-wrapper'
+import PDFRenderer from './_components/pdf-renderer'
 
 interface FileIdPageProps {
   params: {
     fileid: string
-  }
+  },
+  locale: string
 }
 
-const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
+const FileIdPage: React.FC<FileIdPageProps> = async ({ params, locale }) => {
   const { fileid } = params
+  unstable_setRequestLocale(locale)
 
   const { getUser } = getKindeServerSession()
   const user = await getUser()
