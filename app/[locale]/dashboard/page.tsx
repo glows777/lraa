@@ -16,6 +16,7 @@ const Page = async ({ params: { locale } }: Props) => {
   const user = await getUser()
 
   if (!user || !user.id) {
+    console.log('no user')
     redirect({
       pathname: '/auth-callback',
       query: { origin: 'dashboard' },
@@ -29,6 +30,7 @@ const Page = async ({ params: { locale } }: Props) => {
   })
 
   if (!dbUser) {
+    console.log('no dbUser')
     redirect({
       pathname: '/auth-callback',
       query: { origin: 'dashboard' },
