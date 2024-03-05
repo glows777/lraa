@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'simplebar-react/dist/simplebar.min.css'
 import {unstable_setRequestLocale} from 'next-intl/server'
+import { NextIntlClientProvider, useMessages } from 'next-intl'
 
 import TRPCProvider from '@/components/providers/trpc-provider'
 import { Toaster } from '@/components/ui/toaster'
@@ -31,9 +32,11 @@ export default function RootLayout({
   params: { locale: string }
 }) {
   unstable_setRequestLocale(locale)
+  const messages = useMessages()
   return (
     <html lang={locale}>
       <TRPCProvider>
+      <NextIntlClientProvider messages={messages} locale={locale}>
         <body
           className={cn(
             ' min-h-screen font-sans antialiased grainy',
@@ -44,6 +47,7 @@ export default function RootLayout({
           <Navbar locale={locale} />
           {children}
         </body>
+        </NextIntlClientProvider>
       </TRPCProvider>
     </html>
   )
