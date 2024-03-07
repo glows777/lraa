@@ -11,6 +11,7 @@ import {
 import { trpc } from '@/app/_trpc/client'
 import { toast } from '@/components/ui/use-toast'
 import { INFINITE_QUERY_LIMIT } from '@/constant'
+import { useTranslations } from 'next-intl'
 
 interface ChatProviderProps {
   children: ReactNode
@@ -34,6 +35,7 @@ export const ChatContext = createContext<StreamResponse>({
 const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const t = useTranslations('common')
 
   const backupMessage = useRef('')
 
@@ -105,8 +107,8 @@ const ChatProvider: FC<ChatProviderProps> = ({ children, fileId }) => {
     onSuccess: async (stream) => {
       if (!stream) {
         return toast({
-          title: 'There was a problem sending this message',
-          description: 'Please refresh this page and try again',
+          title: t('chat-failed-title'),
+          description: t('chat-failed-description'),
           variant: 'destructive',
         })
       }

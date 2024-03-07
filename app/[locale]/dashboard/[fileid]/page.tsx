@@ -1,8 +1,9 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { unstable_setRequestLocale } from 'next-intl/server'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
 import { db } from '@/db'
+import { redirect } from '@/app/navigation'
 import ChatWrapper from './_components/chat-wrapper'
 import PDFRenderer from './_components/pdf-renderer'
 
@@ -21,13 +22,19 @@ const FileIdPage: React.FC<FileIdPageProps> = async ({ params, locale }) => {
   const user = await getUser()
 
   if (!user || !user.id) {
-    redirect(`/auth-callback?origin=dashboard/${fileid}`)
+    // redirect(`/auth-callback?origin=dashboard/${fileid}`)
+    redirect({
+      pathname: '/auth-callback',
+      query: {
+        origin: `dashboard/${fileid}`,
+      },
+    })
   }
 
   const file = await db.file.findFirst({
     where: {
       id: fileid,
-      userId: user.id,
+      userId: user!.id,
     },
   })
 

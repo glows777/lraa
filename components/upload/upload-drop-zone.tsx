@@ -4,19 +4,21 @@ import { useUploadThing } from '@/lib/use-uploadthing'
 import { Cloud, File as FileIcon, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import Dropzone from 'react-dropzone'
+import { useTranslations } from 'next-intl'
 
 import { trpc } from '@/app/_trpc/client'
 import { useRouter } from '@/app/navigation'
 
 import { Progress } from '../ui/progress'
 import { toast } from '../ui/use-toast'
-import { useTranslations } from 'next-intl'
 
 const UploadDropzone = () => {
   const router = useRouter()
-  const t = useTranslations('dashboard')
+  const tDashboard = useTranslations('dashboard')
+  const tCommon = useTranslations('common')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+
 
   const { startUpload } = useUploadThing('pdfUploader')
 
@@ -60,8 +62,8 @@ const UploadDropzone = () => {
     if (!files) {
       cancel(interval)
       return toast({
-        title: 'Something went wrong',
-        description: 'Please try again later',
+        title: tCommon('upload-failed-title'),
+        description: tCommon('upload-failed-description'),
         variant: 'destructive',
       })
     }
@@ -70,8 +72,8 @@ const UploadDropzone = () => {
     if (!key) {
       cancel(interval)
       return toast({
-        title: 'Something went wrong',
-        description: 'Please try again later',
+        title: tCommon('upload-failed-title'),
+        description: tCommon('upload-failed-description'),
         variant: 'destructive',
       })
     }
@@ -95,10 +97,10 @@ const UploadDropzone = () => {
               <div className=" flex flex-col items-center justify-center pt-5 pb-6">
                 <Cloud className=" h-6 w-6 text-neutral-500 mb-2" />
                 <p className=" mb-2 text-sm text-neutral-700">
-                  <span className=" font-semibold">{t('upload-1')}</span> {t('upload-2')}
-                  {t('upload-3')}
+                  <span className=" font-semibold">{tDashboard('upload-1')}</span> {tDashboard('upload-2')}
+                  {tDashboard('upload-3')}
                 </p>
-                <p className=" text-xs text-neutral-500">{t('upload-4')}</p>
+                <p className=" text-xs text-neutral-500">{tDashboard('upload-4')}</p>
               </div>
 
               {acceptedFiles.length && acceptedFiles[0] ? (
@@ -121,7 +123,7 @@ const UploadDropzone = () => {
                   {uploadProgress === 100 ? (
                     <div className=" flex gap-1 items-center justify-center text-sm text-neutral-700 text-center pt-2">
                       <Loader2 className=" h-3 w-3 animate-spin" />
-                      {t('redirect')}
+                      {tDashboard('redirect')}
                     </div>
                   ) : null}
                 </div>
