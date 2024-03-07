@@ -1,19 +1,22 @@
 'use client'
 
-import { format } from 'date-fns'
+import { format as dateFnsFormat } from 'date-fns'
 import { Ghost, Loader2, MessageSquare, Plus, Trash } from 'lucide-react'
-import Link from 'next/link'
 import { useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
+import { useFormatter, useTranslations } from 'next-intl'
 
 import { trpc } from '@/app/_trpc/client'
 import { Button } from '@/components/ui/button'
 import UploadButton from '@/components/upload/upload-button'
+import { Link } from '@/app/navigation'
 
 const Dashboard = () => {
   const [currentDeletingFile, setCurrentDeletingFile] = useState<string | null>(
     null
   )
+  const t = useTranslations('dashboard')
+  const format = useFormatter()
 
   const utils = trpc.useUtils()
   const { data: files, isLoading } = trpc.getUserFiles.useQuery()
@@ -33,7 +36,7 @@ const Dashboard = () => {
   return (
     <main className=" mx-auto max-w-7xl md:p-10">
       <div className=" mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className=" mb-3 font-bold text-5xl text-gray-900">My Files</h1>
+        <h1 className=" mb-3 font-bold text-5xl text-gray-900">{t('files')}</h1>
         <UploadButton />
       </div>
       {files && files.length > 0 ? (
@@ -50,7 +53,10 @@ const Dashboard = () => {
                 className=" col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
                 <Link
-                  href={`/dashboard/${file.id}`}
+                  href={{
+                    pathname: '/dashboard/[fileid]',
+                    params: { fileid: file.id },
+                  }}
                   className=" flex flex-col gap-2"
                 >
                   <div className=" pt-6 px-6 flex w-full items-center justify-center space-x-10">
@@ -67,7 +73,14 @@ const Dashboard = () => {
                 <div className=" px-6 mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-neutral-500">
                   <div className=" flex items-center gap-2">
                     <Plus className=" h-4 w-4" />
-                    {format(new Date(file.createdAt), 'dd/MMM/yyyy')}
+                    {/* {dateFnsFormate(new Date(file.createdAt), 'dd/MMM/yyyy')} */}
+                    {
+                      format.dateTime(new Date(file.createdAt), {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    }
                   </div>
                   <div className=" flex items-center gap-2">
                     <MessageSquare className=" h-4 w-4" />
@@ -94,8 +107,8 @@ const Dashboard = () => {
       ) : (
         <div className=" mt-16 flex flex-col items-center gap-2">
           <Ghost className=" h-8 w-8 text-neutral-800" />
-          <h3 className=" font-semibold text-xl">Pretty empty around here</h3>
-          <p>Let&apos;s upload your first PDF.</p>
+          <h3 className=" font-semibold text-xl">{t('empty')}</h3>
+          <p>{t('upload-slogan')}</p>
         </div>
       )}
     </main>

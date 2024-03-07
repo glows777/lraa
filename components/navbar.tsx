@@ -5,6 +5,7 @@ import {
 } from '@kinde-oss/kinde-auth-nextjs/components'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { Link } from '@/app/navigation'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
@@ -18,6 +19,8 @@ interface NavbarProps {
 const Navbar = async ({ locale }: NavbarProps) => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
+
+  const t = await getTranslations('navbar')
 
   return (
     <nav className=" sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
@@ -39,7 +42,7 @@ const Navbar = async ({ locale }: NavbarProps) => {
                     size: 'sm',
                   })}
                 >
-                  Pricing
+                  {t('pricing')}
                 </Link>
                 <LoginLink
                   className={buttonVariants({
@@ -47,14 +50,14 @@ const Navbar = async ({ locale }: NavbarProps) => {
                     size: 'sm',
                   })}
                 >
-                  Sign in
+                  {t('signIn')}
                 </LoginLink>
                 <RegisterLink
                   className={buttonVariants({
                     size: 'sm',
                   })}
                 >
-                  Get started
+                  {t('start')}
                   <ArrowRight className=" ml-1.5 h-5 w-5" />
                 </RegisterLink>
               </>
@@ -67,7 +70,7 @@ const Navbar = async ({ locale }: NavbarProps) => {
                     size: 'sm',
                   })}
                 >
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
                 <LogoutLink
                   className={buttonVariants({
@@ -75,7 +78,7 @@ const Navbar = async ({ locale }: NavbarProps) => {
                     size: 'sm',
                   })}
                 >
-                  Sign out
+                  {t('signOut')}
                 </LogoutLink>
               </>
             )}

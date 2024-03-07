@@ -7,6 +7,7 @@ export const pathnames = {
     '/pricing': '/pricing',
     '/dashboard': '/dashboard',
     '/auth-callback': '/auth-callback',
+    '/dashboard/[fileid]': '/dashboard/[fileid]',
 } satisfies Pathnames<typeof locales>
 
 // Use the default: `always`
