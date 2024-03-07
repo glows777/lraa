@@ -2,12 +2,13 @@
 
 import { Loader2, XCircle } from 'lucide-react'
 import { FC, ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { trpc } from '@/app/_trpc/client'
+import ChatProvider from '@/components/providers/chat-provider'
 
 import ChatInput from './chat-input'
 import MessageList from './message-list'
-import ChatProvider from '@/components/providers/chat-provider'
 
 interface ChatWrapperProps {
   fileId: string
@@ -40,15 +41,16 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
         data?.status === 'SUCCESS' || data?.status === 'FAILED' ? false : 500,
     }
   )
+  const t = useTranslations('file')
 
   if (isLoading) {
     return (
       <ChatContainer isDisable>
         <div className=" flex flex-col items-center gap-2">
           <Loader2 className=" h-8 w08 text-blue-500 animate-spin" />
-          <h3 className=" font-semibold text-xl">Loading...</h3>
+          <h3 className=" font-semibold text-xl">{t('loading')}</h3>
           <p className=" text-neutral-500 text-sm">
-            we&apos;re preparing your PDF
+            {t('prepare')}
           </p>
         </div>
       </ChatContainer>
@@ -61,7 +63,7 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
         <div className=" flex flex-col items-center gap-2">
           <XCircle className=" h-8 w-8 text-red-500" />
           <h3 className=" font-semibold text-xl">
-            Oops, there seems to have some errors
+            {t('tooltip-failed')}
           </h3>
         </div>
       </ChatContainer>
@@ -73,8 +75,8 @@ const ChatWrapper: FC<ChatWrapperProps> = ({ fileId }) => {
       <ChatContainer isDisable>
         <div className=" flex flex-col items-center gap-2">
           <Loader2 className=" h-8 w-8 text-blue-500 animate-spin" />
-          <h3 className=" font-semibold text-xl">Processing PDF...</h3>
-          <p className=" text-neutral-500 text-sm">This won&apos;t take long</p>
+          <h3 className=" font-semibold text-xl">{t('process')}</h3>
+          <p className=" text-neutral-500 text-sm">{t('tooltip-processing')}</p>
         </div>
       </ChatContainer>
     )

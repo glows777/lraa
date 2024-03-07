@@ -9,6 +9,7 @@ import { ChatContext } from '@/components/providers/chat-provider'
 import { INFINITE_QUERY_LIMIT } from '@/constant'
 
 import Message from './message'
+import { useTranslations } from 'next-intl'
 
 interface MessageListProps {
   fileId: string
@@ -16,6 +17,7 @@ interface MessageListProps {
 
 const MessageList: FC<MessageListProps> = ({ fileId }) => {
   const { isLoading: isAiThinking } = useContext(ChatContext)
+  const t = useTranslations('file')
 
   const { data, isLoading, fetchNextPage } =
     trpc.getFileMessages.useInfiniteQuery(
@@ -97,9 +99,9 @@ const MessageList: FC<MessageListProps> = ({ fileId }) => {
       ) : (
         <div className=" flex-1 flex flex-col items-center justify-center gap-2">
           <MessageSquare className=" h-8 w-8 text-black-500" />
-          <h3 className=" font-semibold text-xl">You&apos;re all set!</h3>
+          <h3 className=" font-semibold text-xl">{t('allSet')}</h3>
           <p className=" text-neutral-500 text-sm">
-            Ask your first question to get started.
+            {t('tooltip-success')}
           </p>
         </div>
       )}
