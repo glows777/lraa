@@ -1,16 +1,20 @@
 'use client'
 
-import { trpc } from '@/app/_trpc/client'
 import { useUploadThing } from '@/lib/use-uploadthing'
 import { Cloud, File as FileIcon, Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Dropzone from 'react-dropzone'
+
+import { trpc } from '@/app/_trpc/client'
+import { useRouter } from '@/app/navigation'
+
 import { Progress } from '../ui/progress'
 import { toast } from '../ui/use-toast'
+import { useTranslations } from 'next-intl'
 
 const UploadDropzone = () => {
   const router = useRouter()
+  const t = useTranslations('dashboard')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
@@ -18,7 +22,10 @@ const UploadDropzone = () => {
 
   const { mutate: startPolling } = trpc.getFile.useMutation({
     onSuccess: (file) => {
-      router.push(`/dashboard/${file?.id}`)
+      router.push({
+        pathname: '/dashboard/[fileid]',
+        params: { fileid: file.id },
+      })
     },
     retry: true,
     retryDelay: 500
@@ -88,10 +95,10 @@ const UploadDropzone = () => {
               <div className=" flex flex-col items-center justify-center pt-5 pb-6">
                 <Cloud className=" h-6 w-6 text-neutral-500 mb-2" />
                 <p className=" mb-2 text-sm text-neutral-700">
-                  <span className=" font-semibold">Click to upload</span> or
-                  drag and drop
+                  <span className=" font-semibold">{t('upload-1')}</span> {t('upload-2')}
+                  {t('upload-3')}
                 </p>
-                <p className=" text-xs text-neutral-500">PDF (up to 4 MB)</p>
+                <p className=" text-xs text-neutral-500">{t('upload-4')}</p>
               </div>
 
               {acceptedFiles.length && acceptedFiles[0] ? (
@@ -114,7 +121,7 @@ const UploadDropzone = () => {
                   {uploadProgress === 100 ? (
                     <div className=" flex gap-1 items-center justify-center text-sm text-neutral-700 text-center pt-2">
                       <Loader2 className=" h-3 w-3 animate-spin" />
-                      Redirecting...
+                      {t('redirect')}
                     </div>
                   ) : null}
                 </div>
