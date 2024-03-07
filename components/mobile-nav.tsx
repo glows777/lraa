@@ -6,14 +6,18 @@ import {
   RegisterLink,
 } from '@kinde-oss/kinde-auth-nextjs/components'
 import { ArrowRight, Menu } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { buttonVariants } from './ui/button'
+
 import { cn } from '@/lib/utils'
+import { Link } from '@/app/navigation'
+
+import { buttonVariants } from './ui/button'
 
 const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
+  const t = useTranslations('navbar')
 
   const toggleOpen = () => setOpen((prev) => !prev)
 
@@ -51,7 +55,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                       ' font-semibold px-0 text-green-600 bg-inherit text-md'
                     )}
                   >
-                    Get started
+                    {t('start')}
                     <ArrowRight className=" ml-2 h-5 w-5" />
                   </RegisterLink>
                 </li>
@@ -66,7 +70,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                       ' font-semibold px-0 text-md'
                     )}
                   >
-                    Sign in
+                    {t('signIn')}
                   </LoginLink>
                 </li>
                 <li className=" my-3 h-px w-full bg-gray-300" />
@@ -76,7 +80,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                     className=" flex items-center w-full font-semibold text-md"
                     href="/pricing"
                   >
-                    Pricing
+                    {t('pricing')}
                   </Link>
                 </li>
               </>
@@ -88,7 +92,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                     className=" flex items-center w-full font-semibold text-md"
                     href="/dashboard"
                   >
-                    Dashboard
+                    {t('dashboard')}
                   </Link>
                 </li>
                 <li className=" my-3 h-px w-full bg-gray-300" />
@@ -102,7 +106,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                       ' font-semibold px-0 text-md'
                     )}
                   >
-                    Sign out
+                    {t('signOut')}
                   </LogoutLink>
                 </li>
               </>
