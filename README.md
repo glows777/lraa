@@ -5,6 +5,7 @@
 - [x] upload pdf, get read it, we can ask any question abou this article, preview pdf in realtime
 - [x] landing page
 - [x] log in by using kinde
+- [x] i18n
 
 ## limit
 - [ ] experience version, limiting upload size to 4MB per time, and the number of uploads to 3 times and 10 times to chat in each file
