@@ -8,7 +8,6 @@ import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
 import { Link } from '@/app/navigation'
-import { Link } from '@/app/navigation'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
 
