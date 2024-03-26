@@ -10,7 +10,10 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/app/navigation'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
+
+
 import MobileNav from './mobile-nav'
+import ToggleLanguage from './toggle-language'
 
 interface NavbarProps {
   locale: string
@@ -33,6 +36,7 @@ const Navbar = async ({ locale }: NavbarProps) => {
           <MobileNav isAuth={!!user} />
 
           <div className=" hidden items-center space-x-4 sm:flex">
+            <ToggleLanguage />
             {!user ? (
               <>
                 <Link
