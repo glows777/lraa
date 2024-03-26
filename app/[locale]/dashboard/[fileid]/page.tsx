@@ -8,13 +8,12 @@ import ChatWrapper from './_components/chat-wrapper'
 import PDFRenderer from './_components/pdf-renderer'
 interface FileIdPageProps {
   params: {
-    fileid: string
-  },
-  locale: string
+    fileid: string,
+    locale: string
+  }
 }
 
-const Page: React.FC<FileIdPageProps> = async ({ params, locale }) => {
-  const { fileid } = params
+const Page: React.FC<FileIdPageProps> = async ({ params: { fileid, locale } }) => {
   unstable_setRequestLocale(locale)
 
   const { getUser } = getKindeServerSession()
