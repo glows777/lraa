@@ -1,5 +1,8 @@
 'use client'
 
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
 import { usePathname, useRouter } from '@/app/navigation'
 import {
     Select,
@@ -8,8 +11,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useParams } from 'next/navigation'
-import { useEffect } from 'react'
 
 enum Locale {
     ZH = 'zh',
@@ -21,6 +22,11 @@ const ToggleLanguage = () => {
     const pathname = usePathname()
     const params = useParams()
 
+    const [currentLocale, setCurrentLocale] = useState<Locale>(Locale.ZH)
+    useEffect(() => {
+        setCurrentLocale(params.locale as Locale)
+    }, [params])
+
     const toggleLanguage = (locale: string) => {
         router.push({
             pathname: pathname,
@@ -30,7 +36,7 @@ const ToggleLanguage = () => {
         }, { locale })
     }
     return (
-        <Select onValueChange={toggleLanguage}>
+        <Select onValueChange={toggleLanguage} value={currentLocale}>
             <SelectTrigger className=" w-40">
                 <SelectValue placeholder="简体中文" />
             </SelectTrigger>
