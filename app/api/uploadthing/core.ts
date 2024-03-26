@@ -49,15 +49,20 @@ export const ourFileRouter = {
 
         const blob = await response.blob()
         const loader = new PDFLoader(blob)
+        // * load the document by langchain
         const pageLevelDocs = await loader.load()
 
+        //*  get pinecone client && index
         const pinecone = await getPineconeClient()
         const pineconeIndex = pinecone.Index('lraa')
 
+        // * create embeddings
+        // * so that we can store the document in pinecone by using embeddings
         const embedings = new OpenAIEmbeddings({
           openAIApiKey: process.env.OPENAI_API_KEY,
         })
 
+        // * store the document in pinecone by openaiEmbeddings
         await PineconeStore.fromDocuments(pageLevelDocs, embedings, {
           pineconeIndex,
           namespace: createdFile.id,

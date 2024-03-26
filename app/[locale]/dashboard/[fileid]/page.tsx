@@ -1,30 +1,38 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import { notFound, redirect } from 'next/navigation'
+import { unstable_setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 
 import { db } from '@/db'
-import PDFRenderer from './_components/pdf-renderer'
+import { redirect } from '@/app/navigation'
 import ChatWrapper from './_components/chat-wrapper'
-
+import PDFRenderer from './_components/pdf-renderer'
 interface FileIdPageProps {
   params: {
-    fileid: string
+    fileid: string,
+    locale: string
   }
 }
 
-const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
-  const { fileid } = params
+const Page: React.FC<FileIdPageProps> = async ({ params: { fileid, locale } }) => {
+  unstable_setRequestLocale(locale)
 
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
   if (!user || !user.id) {
-    redirect(`/auth-callback?origin=dashboard/${fileid}`)
+    // redirect(`/auth-callback?origin=dashboard/${fileid}`)
+    redirect({
+      pathname: '/auth-callback',
+      query: {
+        origin: `dashboard/${fileid}`,
+      },
+    })
   }
 
   const file = await db.file.findFirst({
     where: {
       id: fileid,
-      userId: user.id,
+      userId: user!.id,
     },
   })
 
@@ -50,4 +58,4 @@ const FileIdPage: React.FC<FileIdPageProps> = async ({ params }) => {
   )
 }
 
-export default FileIdPage
+export default Page

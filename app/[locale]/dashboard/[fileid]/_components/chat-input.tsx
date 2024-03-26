@@ -4,6 +4,7 @@ import { FC, useContext, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ChatContext } from '@/components/providers/chat-provider'
+import { useTranslations } from 'next-intl'
 
 interface ChatInputProps {
   isDisable?: boolean
@@ -12,6 +13,7 @@ interface ChatInputProps {
 const ChatInput: FC<ChatInputProps> = ({ isDisable }) => {
   const { addMessage, handleInputChange, isLoading, message } =
     useContext(ChatContext)
+  const t = useTranslations('file')
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const handleSendMessage = () => {
@@ -29,7 +31,7 @@ const ChatInput: FC<ChatInputProps> = ({ isDisable }) => {
                 maxRows={4}
                 autoFocus
                 disabled={isDisable}
-                placeholder="Enter your question..."
+                placeholder={t('ask')}
                 className=" resize-none pr-12 text-base py-3 focus-visible:border-none scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
                 ref={textareaRef}
                 onChange={handleInputChange}

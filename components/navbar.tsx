@@ -5,15 +5,29 @@ import {
 } from '@kinde-oss/kinde-auth-nextjs/components'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 
+import { Link } from '@/app/navigation'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { buttonVariants } from '@/components/ui/button'
-import MobileNav from './mobile-nav'
 
-const Navbar = async () => {
+
+import MobileNav from './mobile-nav'
+import ToggleLanguage from './toggle-language'
+
+interface NavbarProps {
+  locale: string
+}
+
+interface NavbarProps {
+  locale: string
+}
+
+const Navbar = async ({ locale }: NavbarProps) => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
+
+  const t = await getTranslations('navbar')
 
   return (
     <nav className=" sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
@@ -26,16 +40,17 @@ const Navbar = async () => {
           <MobileNav isAuth={!!user} />
 
           <div className=" hidden items-center space-x-4 sm:flex">
+            <ToggleLanguage />
             {!user ? (
               <>
                 <Link
-                  href="/pricing"
+                  href='/pricing'
                   className={buttonVariants({
                     variant: 'ghost',
                     size: 'sm',
                   })}
                 >
-                  Pricing
+                  {t('pricing')}
                 </Link>
                 <LoginLink
                   className={buttonVariants({
@@ -43,14 +58,14 @@ const Navbar = async () => {
                     size: 'sm',
                   })}
                 >
-                  Sign in
+                  {t('signIn')}
                 </LoginLink>
                 <RegisterLink
                   className={buttonVariants({
                     size: 'sm',
                   })}
                 >
-                  Get started
+                  {t('start')}
                   <ArrowRight className=" ml-1.5 h-5 w-5" />
                 </RegisterLink>
               </>
@@ -63,7 +78,7 @@ const Navbar = async () => {
                     size: 'sm',
                   })}
                 >
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
                 <LogoutLink
                   className={buttonVariants({
@@ -71,7 +86,7 @@ const Navbar = async () => {
                     size: 'sm',
                   })}
                 >
-                  Sign out
+                  {t('signOut')}
                 </LogoutLink>
               </>
             )}
